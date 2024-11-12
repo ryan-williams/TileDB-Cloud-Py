@@ -16,19 +16,19 @@ import numpy as np
 import pandas as pd
 import pytest
 
-import tiledb.cloud
-from tiledb.cloud import client
-from tiledb.cloud import dag
-from tiledb.cloud import rest_api
-from tiledb.cloud import tasks
-from tiledb.cloud import tiledb_cloud_error as tce
-from tiledb.cloud._common import visitor
-from tiledb.cloud._results import decoders
-from tiledb.cloud._results import results
-from tiledb.cloud._results import stored_params as sp
-from tiledb.cloud.dag import Mode
-from tiledb.cloud.dag import dag as dag_dag
-from tiledb.cloud.rest_api import models
+import tiledb_cloud
+from tiledb_cloud import client
+from tiledb_cloud import dag
+from tiledb_cloud import rest_api
+from tiledb_cloud import tasks
+from tiledb_cloud import tiledb_cloud_error as tce
+from tiledb_cloud._common import visitor
+from tiledb_cloud._results import decoders
+from tiledb_cloud._results import results
+from tiledb_cloud._results import stored_params as sp
+from tiledb_cloud.dag import Mode
+from tiledb_cloud.dag import dag as dag_dag
+from tiledb_cloud.rest_api import models
 
 
 class DAGClassTest(unittest.TestCase):
@@ -854,7 +854,7 @@ class DAGCancelTest(unittest.TestCase):
 class DAGCloudApplyTest(unittest.TestCase):
     def test_dag_array_apply(self):
         uri = "tiledb://TileDB-Inc/quickstart_sparse"
-        with tiledb.open(uri, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri, ctx=tiledb_cloud.Ctx()) as A:
             orig = A[:]
 
         import numpy
@@ -862,7 +862,7 @@ class DAGCloudApplyTest(unittest.TestCase):
         d = dag.DAG()
 
         node = d.add_node(
-            tiledb.cloud.array.apply, uri, lambda x: numpy.sum(x["a"]), [(1, 4), (1, 4)]
+            tiledb_cloud.array.apply, uri, lambda x: numpy.sum(x["a"]), [(1, 4), (1, 4)]
         )
         node.name = "node"
 
@@ -878,7 +878,7 @@ class DAGCloudApplyTest(unittest.TestCase):
 
         d = dag.DAG()
 
-        node = d.add_node(tiledb.cloud.udf.exec, lambda x: numpy.sum(x), [1, 4, 10, 40])
+        node = d.add_node(tiledb_cloud.udf.exec, lambda x: numpy.sum(x), [1, 4, 10, 40])
         node.name = "node"
 
         d.compute()
@@ -890,7 +890,7 @@ class DAGCloudApplyTest(unittest.TestCase):
 
     def test_dag_sql_exec(self):
         uri = "tiledb://TileDB-Inc/quickstart_sparse"
-        with tiledb.open(uri, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri, ctx=tiledb_cloud.Ctx()) as A:
             orig = A[:]
 
         import numpy
@@ -898,7 +898,7 @@ class DAGCloudApplyTest(unittest.TestCase):
         d = dag.DAG()
 
         node = d.add_node(
-            tiledb.cloud.sql.exec, "select SUM(`a`) as a from `{}`".format(uri)
+            tiledb_cloud.sql.exec, "select SUM(`a`) as a from `{}`".format(uri)
         )
         node.name = "node"
 
@@ -912,10 +912,10 @@ class DAGCloudApplyTest(unittest.TestCase):
     def test_dag_apply_exec_multiple(self):
         uri_sparse = "tiledb://TileDB-Inc/quickstart_sparse"
         uri_dense = "tiledb://TileDB-Inc/quickstart_dense"
-        with tiledb.open(uri_sparse, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_sparse, ctx=tiledb_cloud.Ctx()) as A:
             orig = A[:]
 
-        with tiledb.open(uri_dense, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_dense, ctx=tiledb_cloud.Ctx()) as A:
             orig_dense = A[:]
 
         import numpy
@@ -923,14 +923,14 @@ class DAGCloudApplyTest(unittest.TestCase):
         d = dag.DAG()
 
         node_array_apply = d.add_node(
-            tiledb.cloud.array.apply,
+            tiledb_cloud.array.apply,
             uri_sparse,
             lambda x: numpy.sum(x["a"]),
             [(1, 4), (1, 4)],
             name="node_array_apply",
         )
         node_sql = d.add_node(
-            tiledb.cloud.sql.exec,
+            tiledb_cloud.sql.exec,
             "select SUM(`a`) as a from `{}`".format(uri_dense),
             name="node_sql",
         )
@@ -947,7 +947,7 @@ class DAGCloudApplyTest(unittest.TestCase):
             return numpy.mean(args)
 
         node_exec = d.add_node(
-            tiledb.cloud.udf.exec,
+            tiledb_cloud.udf.exec,
             mean,
             [node_array_apply, node_sql],
             name="node_exec",
@@ -969,10 +969,10 @@ class DAGCloudApplyTest(unittest.TestCase):
     def test_dag_apply_exec_multiple_2(self):
         uri_sparse = "tiledb://TileDB-Inc/quickstart_sparse"
         uri_dense = "tiledb://TileDB-Inc/quickstart_dense"
-        with tiledb.open(uri_sparse, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_sparse, ctx=tiledb_cloud.Ctx()) as A:
             orig = A[:]
 
-        with tiledb.open(uri_dense, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_dense, ctx=tiledb_cloud.Ctx()) as A:
             orig_dense = A[:]
 
         import numpy
@@ -1028,7 +1028,7 @@ class DAGCloudApplyTest(unittest.TestCase):
             numpy.sum(orig_dense["a"]),
             tasks.fetch_results_pandas(
                 node_sql.task_id(),
-                result_format=tiledb.cloud.ResultFormat.ARROW,
+                result_format=tiledb_cloud.ResultFormat.ARROW,
             ).iat[0, 0],
         )
         self.assertEqual(

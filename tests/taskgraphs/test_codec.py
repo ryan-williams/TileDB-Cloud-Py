@@ -14,9 +14,9 @@ import pandas
 import pyarrow
 import urllib3
 
-from tiledb.cloud._results import codecs
-from tiledb.cloud._results import tiledb_json
-from tiledb.cloud._results import types
+from tiledb_cloud._results import codecs
+from tiledb_cloud._results import tiledb_json
+from tiledb_cloud._results import types
 
 TESTDATA = (pathlib.Path(__file__) / ".." / ".." / "testdata").resolve()
 
@@ -269,7 +269,7 @@ class PandasArrowTest(unittest.TestCase):
                 textwrap.dedent(
                     """
                     import sys
-                    from tiledb.cloud._results import codecs
+                    from tiledb_cloud._results import codecs
                     assert not codecs._is_dataframe("hello")
                     assert "pandas" not in sys.modules
                     """

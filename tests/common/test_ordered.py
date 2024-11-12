@@ -1,7 +1,7 @@
 import itertools
 import unittest
 
-from tiledb.cloud._common import ordered
+from tiledb_cloud._common import ordered
 
 
 class TestSets(unittest.TestCase):

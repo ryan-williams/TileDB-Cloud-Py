@@ -45,11 +45,11 @@ This package contains modules and functions that will be run in the TileDB Cloud
 ```python
 import cloudpickle
 
-import tiledb.cloud.bioimg
+import tiledb_cloud.bioimg
 
-cloudpickle.register_pickle_by_value(tiledb.cloud.bioimg)
+cloudpickle.register_pickle_by_value(tiledb_cloud.bioimg)
 
-tiledb.cloud.bioimg.ingest(
+tiledb_cloud.bioimg.ingest(
     source="s3://AWS_BUCKET/IMAGE_FILE_KEY",
     output="s3://AWS_BUCKET/OUTPUT_GROUP_KEY",
     config=None,
@@ -59,7 +59,7 @@ tiledb.cloud.bioimg.ingest(
 )
 ```
 
-In this case `tiledb.cloud.bioimg.ingest()` uses cloudpickle to send a local function to TileDB Cloud, and `cloudpickle.register_pickle_by_value(tiledb.cloud.bioimg)` directs cloudpickle to bring the currently imported `tiledb.cloud.bioimg` module along with the function. Your local version of the module will be used instead of the version currently deployed in TileDB Cloud.
+In this case `tiledb_cloud.bioimg.ingest()` uses cloudpickle to send a local function to TileDB Cloud, and `cloudpickle.register_pickle_by_value(tiledb_cloud.bioimg)` directs cloudpickle to bring the currently imported `tiledb_cloud.bioimg` module along with the function. Your local version of the module will be used instead of the version currently deployed in TileDB Cloud.
 
 Note: your local changes to the Cloud-Py package will need to be installed in order for cloudpickle to serialize them, as cloudpickle needs to find them at runtime.
 

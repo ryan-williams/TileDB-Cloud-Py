@@ -7,8 +7,8 @@ import unittest
 
 import pytz  # Test-only dependency.
 
-from tiledb.cloud._common import utils
-from tiledb.cloud.utilities import find
+from tiledb_cloud._common import utils
+from tiledb_cloud.utilities import find
 
 
 class UtilsTest(unittest.TestCase):

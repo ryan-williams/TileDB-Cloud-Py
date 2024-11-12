@@ -4,9 +4,9 @@ import unittest
 
 import pytest
 
-import tiledb.cloud
-import tiledb.cloud.soma
-from tiledb.cloud._common import testonly
+import tiledb_cloud
+import tiledb_cloud.soma
+from tiledb_cloud._common import testonly
 
 
 class TestSOMAIngestion(unittest.TestCase):
@@ -18,10 +18,10 @@ class TestSOMAIngestion(unittest.TestCase):
             cls.namespace,
             cls.storage_path,
             cls.acn,
-        ) = tiledb.cloud.groups._default_ns_path_cred()
+        ) = tiledb_cloud.groups._default_ns_path_cred()
         cls.namespace = cls.namespace.rstrip("/")
         cls.storage_path = cls.storage_path.rstrip("/")
-        cls.array_name = tiledb.cloud._common.testonly.random_name("soma-test")
+        cls.array_name = tiledb_cloud._common.testonly.random_name("soma-test")
         cls.destination = (
             f"tiledb://{cls.namespace}/{cls.storage_path}/{cls.array_name}"
         )
@@ -31,7 +31,7 @@ class TestSOMAIngestion(unittest.TestCase):
     # TODO: Allow test to run when VFS access is enabled
     @unittest.skip("Fails until unittest user obtains VFS access.")
     def test_ingest_h5ad(self):
-        tiledb.cloud.soma.ingest_h5ad(
+        tiledb_cloud.soma.ingest_h5ad(
             output_uri=self.destination,
             input_uri=self.test_file_path,
             measurement_name="RNA",
@@ -39,16 +39,16 @@ class TestSOMAIngestion(unittest.TestCase):
         )
 
         array_uri = f"tiledb://{self.namespace}/{self.array_name}"
-        array_info = tiledb.cloud.array.info(array_uri)
+        array_info = tiledb_cloud.array.info(array_uri)
         self.assertEqual(array_info.name, self.array_name)
         self.assertEqual(array_info.namespace, self.namespace)
-        tiledb.cloud.array.delete_array(array_uri)
+        tiledb_cloud.array.delete_array(array_uri)
 
     # TODO: Allow test to run when VFS access is enabled
     @unittest.skip("Fails until unittest user obtains VFS access.")
     def test_ingest_h5ad_dry_run(self):
         with self.assertLogs(level=logging.INFO) as lg:
-            tiledb.cloud.soma.ingest_h5ad(
+            tiledb_cloud.soma.ingest_h5ad(
                 output_uri=self.destination,
                 input_uri=self.test_file_path,
                 measurement_name="RNA",
@@ -85,7 +85,7 @@ class TestSOMAMapper(unittest.TestCase):
         else:
             pass
 
-        g = tiledb.cloud.soma.build_collection_mapper_workflow_graph(
+        g = tiledb_cloud.soma.build_collection_mapper_workflow_graph(
             soma_collection_uri=soma_collection_uri,
             measurement_name=measurement_name,
             X_layer_name="data",
@@ -98,10 +98,10 @@ class TestSOMAMapper(unittest.TestCase):
         g.wait()
 
         self.assertTrue(g.done())
-        self.assertEqual(g.status, tiledb.cloud.dag.status.Status.COMPLETED)
+        self.assertEqual(g.status, tiledb_cloud.dag.status.Status.COMPLETED)
 
         for k, v in g.nodes_by_name.items():
-            self.assertEqual(v.status, tiledb.cloud.dag.status.Status.COMPLETED)
+            self.assertEqual(v.status, tiledb_cloud.dag.status.Status.COMPLETED)
             print(v.result())
 
         self.assertEqual(

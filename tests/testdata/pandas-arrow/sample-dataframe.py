@@ -9,7 +9,7 @@ import numpy
 import pandas
 import pyarrow
 
-from tiledb.cloud._results import codecs
+from tiledb_cloud._results import codecs
 
 
 def makedf() -> pandas.DataFrame:

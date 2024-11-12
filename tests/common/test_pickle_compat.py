@@ -38,9 +38,9 @@ PICKLE_DIR = pathlib.Path(__file__).parent / "testdata" / "pickles"
 
 @pytest.fixture(scope="module", autouse=True)
 def import_tiledb_cloud():
-    # We import tiledb.cloud but don't use it so that we can be sure that
-    # Pandas is immediately patched upon importing `tiledb.cloud`.
-    import tiledb.cloud  # noqa: F401
+    # We import tiledb_cloud but don't use it so that we can be sure that
+    # Pandas is immediately patched upon importing `tiledb_cloud`.
+    import tiledb_cloud  # noqa: F401
 
 
 @pytest.mark.skipif(

@@ -4,10 +4,10 @@ from typing import Optional
 
 import attrs
 
-from tiledb.cloud._common import ordered
-from tiledb.cloud.taskgraphs import types
-from tiledb.cloud.taskgraphs.client_executor import _base
-from tiledb.cloud.taskgraphs.client_executor import _replacers
+from tiledb_cloud._common import ordered
+from tiledb_cloud.taskgraphs import types
+from tiledb_cloud.taskgraphs.client_executor import _base
+from tiledb_cloud.taskgraphs.client_executor import _replacers
 
 
 class NodeOutputValueReplacerTest(unittest.TestCase):

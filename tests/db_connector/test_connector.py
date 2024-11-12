@@ -1,6 +1,6 @@
 import unittest
 
-from tiledb.cloud.sql.tiledb_connection import TileDBConnection
+from tiledb_cloud.sql.tiledb_connection import TileDBConnection
 
 
 class TileDBConnectionTest(unittest.TestCase):

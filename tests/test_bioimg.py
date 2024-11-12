@@ -1,6 +1,6 @@
 import unittest
 
-from tiledb.cloud.bioimg.helpers import validate_io_paths
+from tiledb_cloud.bioimg.helpers import validate_io_paths
 
 
 class BioimgTest(unittest.TestCase):

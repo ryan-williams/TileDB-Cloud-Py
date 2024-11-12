@@ -1,10 +1,10 @@
 import time
 import unittest
 
-from tiledb.cloud import client
-from tiledb.cloud import groups
-from tiledb.cloud import rest_api
-from tiledb.cloud._common import testonly
+from tiledb_cloud import client
+from tiledb_cloud import groups
+from tiledb_cloud import rest_api
+from tiledb_cloud._common import testonly
 
 TRIES = 5
 

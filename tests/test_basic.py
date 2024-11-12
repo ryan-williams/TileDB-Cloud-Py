@@ -14,14 +14,14 @@ import pytest
 import urllib3
 
 import tiledb
-import tiledb.cloud
-from tiledb.cloud import array
-from tiledb.cloud import client
-from tiledb.cloud import groups
-from tiledb.cloud import tasks
-from tiledb.cloud import tiledb_cloud_error
-from tiledb.cloud._common import json_safe
-from tiledb.cloud._common import testonly
+import tiledb_cloud
+from tiledb_cloud import array
+from tiledb_cloud import client
+from tiledb_cloud import groups
+from tiledb_cloud import tasks
+from tiledb_cloud import tiledb_cloud_error
+from tiledb_cloud._common import json_safe
+from tiledb_cloud._common import testonly
 
 
 class BasicTests(unittest.TestCase):
@@ -32,7 +32,7 @@ class BasicTests(unittest.TestCase):
     def test_dont_import_pandas(self):
         # Get a list of all modules from a completely fresh interpreter.
         all_mods_str = subprocess.check_output(
-            (sys.executable, "-c", "import sys, tiledb.cloud; print(list(sys.modules))")
+            (sys.executable, "-c", "import sys, tiledb_cloud; print(list(sys.modules))")
         )
         all_mods = ast.literal_eval(all_mods_str.decode())
         assert "pandas" not in all_mods
@@ -66,13 +66,13 @@ class BasicTests(unittest.TestCase):
 
     def test_quickstart(self):
         with tiledb.open(
-            "tiledb://TileDB-Inc/quickstart_dense", ctx=tiledb.cloud.Ctx()
+            "tiledb://TileDB-Inc/quickstart_dense", ctx=tiledb_cloud.Ctx()
         ) as A:
             print("quickstart_dense:")
             print(A[:])
 
         with tiledb.open(
-            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb.cloud.Ctx()
+            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb_cloud.Ctx()
         ) as A:
             print("quickstart_sparse:")
             print(A[:])
@@ -113,7 +113,7 @@ class BasicTests(unittest.TestCase):
 
     def test_quickstart_arbitrary_parameters(self):
         with tiledb.open(
-            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb.cloud.Ctx()
+            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb_cloud.Ctx()
         ) as A:
             print("quickstart_sparse:")
             print(A[:])
@@ -128,13 +128,13 @@ class BasicTests(unittest.TestCase):
 
     def test_quickstart_async(self):
         with tiledb.open(
-            "tiledb://TileDB-Inc/quickstart_dense", ctx=tiledb.cloud.Ctx()
+            "tiledb://TileDB-Inc/quickstart_dense", ctx=tiledb_cloud.Ctx()
         ) as A:
             print("quickstart_dense:")
             print(A[:])
 
         with tiledb.open(
-            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb.cloud.Ctx()
+            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb_cloud.Ctx()
         ) as A:
             print("quickstart_sparse:")
             print(A[:])
@@ -161,7 +161,7 @@ class BasicTests(unittest.TestCase):
                 numpy.sum(orig["a"]),
             )
             # Validate task name was set
-            self.assertEqual(tiledb.cloud.last_udf_task().name, task_name)
+            self.assertEqual(tiledb_cloud.last_udf_task().name, task_name)
 
             # v2 UDFs
             orig = A[:]
@@ -224,11 +224,11 @@ class BasicTests(unittest.TestCase):
             )
 
             # Validate task name was set
-            self.assertEqual(tiledb.cloud.last_udf_task().name, task_name)
+            self.assertEqual(tiledb_cloud.last_udf_task().name, task_name)
 
     def test_quickstart_sql_async(self):
         with tiledb.open(
-            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb.cloud.Ctx()
+            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb_cloud.Ctx()
         ) as A:
             print("quickstart_sparse:")
             print(A[:])
@@ -242,7 +242,7 @@ class BasicTests(unittest.TestCase):
             task_name = "test_quickstart_sql_async"
             self.assertEqual(
                 int(
-                    tiledb.cloud.sql.exec_async(
+                    tiledb_cloud.sql.exec_async(
                         """
                             select sum(a) as sum
                             from `tiledb://TileDB-Inc/quickstart_sparse`
@@ -254,12 +254,12 @@ class BasicTests(unittest.TestCase):
             )
 
             # Validate task name was set
-            self.assertEqual(tiledb.cloud.last_sql_task().name, task_name)
+            self.assertEqual(tiledb_cloud.last_sql_task().name, task_name)
 
             orig = A.multi_index[[1, slice(2, 4)], [slice(1, 2), 4]]
             self.assertEqual(
                 int(
-                    tiledb.cloud.sql.exec_async(
+                    tiledb_cloud.sql.exec_async(
                         """
                         select sum(a) as sum
                         from `tiledb://TileDB-Inc/quickstart_sparse`
@@ -272,10 +272,10 @@ class BasicTests(unittest.TestCase):
 
     def test_context(self):
         with self.assertRaises(ValueError):
-            tiledb.cloud.Ctx({"rest.server_address": "1.1.1.1"})
+            tiledb_cloud.Ctx({"rest.server_address": "1.1.1.1"})
 
         test_cache_size = str(int(3.14159 * 100000))
-        ctx = tiledb.cloud.Ctx({"sm.tile_cache_size": test_cache_size})
+        ctx = tiledb_cloud.Ctx({"sm.tile_cache_size": test_cache_size})
         self.assertEqual(ctx.config()["sm.tile_cache_size"], test_cache_size)
 
     def test_bogus_task_fetch_fails(self):
@@ -290,7 +290,7 @@ class BasicTests(unittest.TestCase):
 
         with self.assertRaises(tiledb_cloud_error.TileDBCloudError):
             with tiledb.open(
-                "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb.cloud.Ctx()
+                "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb_cloud.Ctx()
             ) as A:
                 A.apply_async(test, [(1, 4), (1, 4)], timeout=1).get()
 
@@ -300,7 +300,7 @@ class BasicTests(unittest.TestCase):
 
             return pyarrow.Table.from_pydict({})
 
-        tbl = tiledb.cloud.udf.exec(test, result_format="arrow")
+        tbl = tiledb_cloud.udf.exec(test, result_format="arrow")
         self.assertIsInstance(tbl, pyarrow.Table)
 
     def test_parse_ranges(self):

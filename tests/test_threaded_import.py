@@ -26,7 +26,7 @@ def threadtest_run_workers(uri):
 def worker(uri):
     with tiledb.open(uri) as A:
         pass
-    from tiledb.cloud.cloudarray import CloudArray
+    from tiledb_cloud.cloudarray import CloudArray
 
     return isinstance(A, CloudArray)
 

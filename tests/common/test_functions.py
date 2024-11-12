@@ -12,7 +12,7 @@ import unittest
 
 import cloudpickle
 
-from tiledb.cloud._common import functions
+from tiledb_cloud._common import functions
 
 
 class SourceLinesTest(unittest.TestCase):
@@ -110,7 +110,7 @@ class ByValueTest(unittest.TestCase):
                     import cloudpickle
                     import the_module
 
-                    from tiledb.cloud._common import functions
+                    from tiledb_cloud._common import functions
 
                     def uses_the_module():
                         # this has the_module in its globals.

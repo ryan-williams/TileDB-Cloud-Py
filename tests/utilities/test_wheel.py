@@ -6,11 +6,11 @@ import uuid
 import pytest
 
 import tiledb
-import tiledb.cloud
-from tiledb.cloud.utilities import get_logger
-from tiledb.cloud.utilities import install_wheel
-from tiledb.cloud.utilities import upload_wheel
-from tiledb.cloud.utilities.wheel import PipInstall
+import tiledb_cloud
+from tiledb_cloud.utilities import get_logger
+from tiledb_cloud.utilities import install_wheel
+from tiledb_cloud.utilities import upload_wheel
+from tiledb_cloud.utilities.wheel import PipInstall
 
 logger = get_logger()
 
@@ -19,8 +19,8 @@ _LOCAL_WHEEL_ORIG = "tests/utilities/data/fake_unittest_wheel-0.1.0-py3-none-any
 # Add random tag to avoid collisions between concurrent tests
 _LOCAL_WHEEL = f"tests/utilities/data/fake_unittest_wheel-0.1.0-{_TAG}-py3-none-any.whl"
 _ARRAY_NAME = os.path.basename(_LOCAL_WHEEL)
-_NAMESPACE = tiledb.cloud.client.default_user().username
-_S3_OBJECT_PATH = tiledb.cloud.client.default_user().default_s3_path
+_NAMESPACE = tiledb_cloud.client.default_user().username
+_S3_OBJECT_PATH = tiledb_cloud.client.default_user().default_s3_path
 _FULL_URI = os.path.join(
     "tiledb://",
     _NAMESPACE,
@@ -28,7 +28,7 @@ _FULL_URI = os.path.join(
     _ARRAY_NAME,
 )
 _TDB_URI = os.path.join("tiledb://", _NAMESPACE, _ARRAY_NAME)
-_CONFIG = tiledb.cloud.Config()
+_CONFIG = tiledb_cloud.Config()
 
 
 @pytest.fixture(scope="module", autouse=True)
@@ -78,7 +78,7 @@ def test_upload_wheel(array_teardown) -> None:
         config=_CONFIG,
     )
 
-    info = tiledb.cloud.info(os.path.join("tiledb://", _NAMESPACE, _ARRAY_NAME))
+    info = tiledb_cloud.info(os.path.join("tiledb://", _NAMESPACE, _ARRAY_NAME))
 
     assert info.name == _ARRAY_NAME
     assert info.namespace == _NAMESPACE

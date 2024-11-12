@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-import tiledb.cloud.vcf as vcf
-import tiledb.cloud.vcf.vcf_toolbox as vtb
+import tiledb_cloud.vcf as vcf
+import tiledb_cloud.vcf.vcf_toolbox as vtb
 
 
 @vtb.df_transform
@@ -182,7 +182,7 @@ def test_vcf_iaf():
 
 @pytest.mark.vcf
 def test_vcf_zygosity_value():
-    from tiledb.cloud.vcf.vcf_toolbox.annotate import zygosity
+    from tiledb_cloud.vcf.vcf_toolbox.annotate import zygosity
 
     assert zygosity(np.array([])) == "MISSING"
     assert zygosity(np.array([0])) == "HOM_REF"

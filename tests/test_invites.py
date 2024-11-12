@@ -2,10 +2,10 @@
 
 import unittest.mock
 
-from tiledb.cloud import invites
+from tiledb_cloud import invites
 
 
-@unittest.mock.patch("tiledb.cloud.invites.client")
+@unittest.mock.patch("tiledb_cloud.invites.client")
 def test_invite_to_organization(client):
     """Function is properly wired to low-level generated API."""
     # This call used to raise a ValueError.

@@ -7,11 +7,11 @@ import unittest
 import numpy
 import pyarrow
 
-from tiledb.cloud._common import futures
-from tiledb.cloud.taskgraphs import builder
-from tiledb.cloud.taskgraphs import client_executor
-from tiledb.cloud.taskgraphs import executor
-from tiledb.cloud.taskgraphs import types
+from tiledb_cloud._common import futures
+from tiledb_cloud.taskgraphs import builder
+from tiledb_cloud.taskgraphs import client_executor
+from tiledb_cloud.taskgraphs import executor
+from tiledb_cloud.taskgraphs import types
 
 
 class ClientExecutorTestUDFs(unittest.TestCase):

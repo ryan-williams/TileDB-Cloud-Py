@@ -5,13 +5,13 @@ from unittest import mock
 
 import numpy
 
-from tiledb.cloud._common import functions
-from tiledb.cloud._common import testonly
-from tiledb.cloud._common import utils
-from tiledb.cloud.taskgraphs import _codec
-from tiledb.cloud.taskgraphs import builder
-from tiledb.cloud.taskgraphs import depgraph
-from tiledb.cloud.taskgraphs import types
+from tiledb_cloud._common import functions
+from tiledb_cloud._common import testonly
+from tiledb_cloud._common import utils
+from tiledb_cloud.taskgraphs import _codec
+from tiledb_cloud.taskgraphs import builder
+from tiledb_cloud.taskgraphs import depgraph
+from tiledb_cloud.taskgraphs import types
 
 
 class TestEscaper(unittest.TestCase):
@@ -479,7 +479,7 @@ class TestBuilder(unittest.TestCase):
             # a fallback name of `....b64_str` is added first, the input node
             # with that name overrides it for naming purposes.
             collider_node = grf.udf(_codec.b64_str, types.args("it"))
-            in_node = grf.input("tiledb.cloud.taskgraphs._codec.b64_str")
+            in_node = grf.input("tiledb_cloud.taskgraphs._codec.b64_str")
             grf.udf(
                 _codec.b64_str,
                 types.args([collider_node, in_node]),
@@ -492,7 +492,7 @@ class TestBuilder(unittest.TestCase):
                 {
                     "client_node_id": "aaaaaaaa-bbbb-cccc-dddd-000000000000",
                     "depends_on": [],
-                    "name": "tiledb.cloud.taskgraphs._codec.b64_str (00)",
+                    "name": "tiledb_cloud.taskgraphs._codec.b64_str (00)",
                     "udf_node": {
                         "arguments": [{"value": "it"}],
                         "environment": {
@@ -510,7 +510,7 @@ class TestBuilder(unittest.TestCase):
                 {
                     "client_node_id": "aaaaaaaa-bbbb-cccc-dddd-000000000001",
                     "depends_on": [],
-                    "name": "tiledb.cloud.taskgraphs._codec.b64_str",
+                    "name": "tiledb_cloud.taskgraphs._codec.b64_str",
                     "input_node": {},
                 },
                 {
@@ -519,7 +519,7 @@ class TestBuilder(unittest.TestCase):
                         "aaaaaaaa-bbbb-cccc-dddd-000000000000",
                         "aaaaaaaa-bbbb-cccc-dddd-000000000001",
                     ],
-                    "name": "tiledb.cloud.taskgraphs._codec.b64_str (02)",
+                    "name": "tiledb_cloud.taskgraphs._codec.b64_str (02)",
                     "udf_node": {
                         "arguments": [
                             {

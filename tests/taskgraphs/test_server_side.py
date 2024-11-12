@@ -1,8 +1,8 @@
 import unittest
 
-import tiledb.cloud.taskgraphs as tg
-from tiledb.cloud import dag
-from tiledb.cloud.taskgraphs.server_executor import impl
+import tiledb_cloud.taskgraphs as tg
+from tiledb_cloud import dag
+from tiledb_cloud.taskgraphs.server_executor import impl
 
 _WAIT_TIME_S = 120
 

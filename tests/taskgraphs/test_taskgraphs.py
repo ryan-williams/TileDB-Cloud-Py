@@ -1,10 +1,10 @@
-"""Test for the unified ``tiledb.cloud.taskgraphs`` namespace."""
+"""Test for the unified ``tiledb_cloud.taskgraphs`` namespace."""
 
 import datetime
 import unittest
 
-import tiledb.cloud.taskgraphs as tg
-from tiledb.cloud._common import testonly
+import tiledb_cloud.taskgraphs as tg
+from tiledb_cloud._common import testonly
 
 
 class TaskGraphsTest(unittest.TestCase):

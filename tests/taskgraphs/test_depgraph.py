@@ -1,7 +1,7 @@
 import pickle
 import unittest
 
-from tiledb.cloud.taskgraphs import depgraph
+from tiledb_cloud.taskgraphs import depgraph
 
 
 class TestDepGraph(unittest.TestCase):

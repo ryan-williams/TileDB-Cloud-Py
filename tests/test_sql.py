@@ -1,13 +1,13 @@
 import unittest
 
 import tiledb
-import tiledb.cloud
+import tiledb_cloud
 
 
 class BasicTests(unittest.TestCase):
     def test_quickstart_sql_async(self):
         with tiledb.open(
-            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb.cloud.Ctx()
+            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb_cloud.Ctx()
         ) as A:
             print("quickstart_sparse:")
             print(A[:])
@@ -21,7 +21,7 @@ class BasicTests(unittest.TestCase):
             task_name = "test_quickstart_sql_async"
             self.assertEqual(
                 int(
-                    tiledb.cloud.sql.exec_async(
+                    tiledb_cloud.sql.exec_async(
                         """
                             select sum(a) as sum
                             from `tiledb://TileDB-Inc/quickstart_sparse`
@@ -33,12 +33,12 @@ class BasicTests(unittest.TestCase):
             )
 
             # Validate task name was set
-            self.assertEqual(tiledb.cloud.last_sql_task().name, task_name)
+            self.assertEqual(tiledb_cloud.last_sql_task().name, task_name)
 
             orig = A.multi_index[[1, slice(2, 4)], [slice(1, 2), 4]]
             self.assertEqual(
                 int(
-                    tiledb.cloud.sql.exec_async(
+                    tiledb_cloud.sql.exec_async(
                         """
                         select sum(a) as sum
                         from `tiledb://TileDB-Inc/quickstart_sparse`
@@ -53,7 +53,7 @@ class BasicTests(unittest.TestCase):
         task_name = "test_sql_init_commands"
         self.assertEqual(
             int(
-                tiledb.cloud.sql.exec_async(
+                tiledb_cloud.sql.exec_async(
                     "select @A a", task_name=task_name, init_commands=["SET @A=1"]
                 ).get()["a"]
             ),
@@ -61,13 +61,13 @@ class BasicTests(unittest.TestCase):
         )
 
         # Validate task name was set
-        self.assertEqual(tiledb.cloud.last_sql_task().name, task_name)
+        self.assertEqual(tiledb_cloud.last_sql_task().name, task_name)
 
     def test_sql_parameters(self):
         task_name = "test_sql_parameters"
         self.assertEqual(
             float(
-                tiledb.cloud.sql.exec_async(
+                tiledb_cloud.sql.exec_async(
                     "select @A a, ? param1",
                     task_name=task_name,
                     init_commands=["SET @A=1"],
@@ -78,11 +78,11 @@ class BasicTests(unittest.TestCase):
         )
 
         # Validate task name was set
-        self.assertEqual(tiledb.cloud.last_sql_task().name, task_name)
+        self.assertEqual(tiledb_cloud.last_sql_task().name, task_name)
 
     def test_quickstart_sql_arrow(self):
         with tiledb.open(
-            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb.cloud.Ctx()
+            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb_cloud.Ctx()
         ) as A:
             print("quickstart_sparse:")
             print(A[:])
@@ -96,13 +96,13 @@ class BasicTests(unittest.TestCase):
             task_name = "test_quickstart_sql_arrow"
             self.assertEqual(
                 int(
-                    tiledb.cloud.sql.exec_async(
+                    tiledb_cloud.sql.exec_async(
                         """
                             select sum(a) as sum
                             from `tiledb://TileDB-Inc/quickstart_sparse`
                         """,
                         task_name=task_name,
-                        result_format=tiledb.cloud.ResultFormat.ARROW,
+                        result_format=tiledb_cloud.ResultFormat.ARROW,
                     ).get()["sum"]
                 ),
                 numpy.sum(orig["a"]),
@@ -110,7 +110,7 @@ class BasicTests(unittest.TestCase):
 
     def test_quickstart_sql_json(self):
         with tiledb.open(
-            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb.cloud.Ctx()
+            "tiledb://TileDB-Inc/quickstart_sparse", ctx=tiledb_cloud.Ctx()
         ) as A:
             print("quickstart_sparse:")
             print(A[:])
@@ -124,13 +124,13 @@ class BasicTests(unittest.TestCase):
             task_name = "test_quickstart_sql_arrow"
             self.assertEqual(
                 int(
-                    tiledb.cloud.sql.exec_async(
+                    tiledb_cloud.sql.exec_async(
                         """
                             select sum(a) as sum
                             from `tiledb://TileDB-Inc/quickstart_sparse`
                         """,
                         task_name=task_name,
-                        result_format=tiledb.cloud.ResultFormat.JSON,
+                        result_format=tiledb_cloud.ResultFormat.JSON,
                     ).get()["sum"]
                 ),
                 numpy.sum(orig["a"]),

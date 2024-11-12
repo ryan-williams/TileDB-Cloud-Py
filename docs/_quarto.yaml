@@ -114,7 +114,7 @@ website:
 quartodoc:
   style: pkgdown
   parser: sphinx
-  package: tiledb.cloud
+  package: tiledb_cloud
   title: API Reference
 
   options:

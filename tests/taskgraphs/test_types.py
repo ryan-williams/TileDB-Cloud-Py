@@ -1,6 +1,6 @@
 import unittest
 
-from tiledb.cloud.taskgraphs import types
+from tiledb_cloud.taskgraphs import types
 
 
 class TestTypes(unittest.TestCase):

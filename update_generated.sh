@@ -89,8 +89,8 @@ generate_api() {
     -type f \
     -execdir \
       "$SED" --in-place \
-        -e "s/${TEMP_PACKAGE_NAME}\./tiledb.cloud.${PACKAGE_NAME}./g" \
-        -e "s/\\(from\\|import\\) ${TEMP_PACKAGE_NAME}/\\1 tiledb.cloud.${PACKAGE_NAME}/g" \
+        -e "s/${TEMP_PACKAGE_NAME}\./tiledb_cloud.${PACKAGE_NAME}./g" \
+        -e "s/\\(from\\|import\\) ${TEMP_PACKAGE_NAME}/\\1 tiledb_cloud.${PACKAGE_NAME}/g" \
         -e "s/${TEMP_PACKAGE_NAME}/${PACKAGE_NAME}/g" \
         -e "s/ del =/ _del =/g" \
         '{}' \
@@ -144,12 +144,12 @@ index 97319c27..f2307414 100644
  from dateutil.parser import parse
  from six.moves.urllib.parse import quote
 
--import tiledb.cloud.rest_api.models
-+from tiledb.cloud._common import json_safe
-+from tiledb.cloud.rest_api import models
- from tiledb.cloud.rest_api import rest
- from tiledb.cloud.rest_api.configuration import Configuration
- from tiledb.cloud.rest_api.exceptions import ApiException
+-import tiledb_cloud.rest_api.models
++from tiledb_cloud._common import json_safe
++from tiledb_cloud.rest_api import models
+ from tiledb_cloud.rest_api import rest
+ from tiledb_cloud.rest_api.configuration import Configuration
+ from tiledb_cloud.rest_api.exceptions import ApiException
 @@ -73,6 +74,7 @@ class ApiClient(object):
          header_value=None,
          cookie=None,
@@ -184,7 +184,7 @@ index 97319c27..f2307414 100644
              if klass in self.NATIVE_TYPES_MAPPING:
                  klass = self.NATIVE_TYPES_MAPPING[klass]
              else:
--                klass = getattr(tiledb.cloud.rest_api.models, klass)
+-                klass = getattr(tiledb_cloud.rest_api.models, klass)
 +                klass = getattr(self._tdb_models_module, klass)
 
          if klass in self.PRIMITIVE_TYPES:

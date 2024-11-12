@@ -3,11 +3,11 @@ import string
 import time
 import unittest
 
-from tiledb.cloud import rest_api
-from tiledb.cloud._common import testonly
-from tiledb.cloud.taskgraphs import builder
-from tiledb.cloud.taskgraphs import registration
-from tiledb.cloud.taskgraphs import types
+from tiledb_cloud import rest_api
+from tiledb_cloud._common import testonly
+from tiledb_cloud.taskgraphs import builder
+from tiledb_cloud.taskgraphs import registration
+from tiledb_cloud.taskgraphs import types
 
 
 class RegistrationTest(unittest.TestCase):

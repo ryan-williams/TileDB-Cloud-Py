@@ -4,15 +4,15 @@ import unittest
 import numpy as np
 import urllib3
 
-import tiledb.cloud
-from tiledb.cloud import client
-from tiledb.cloud import config
-from tiledb.cloud import rest_api
-from tiledb.cloud import tiledb_cloud_error
-from tiledb.cloud import udf
-from tiledb.cloud._common import testonly
-from tiledb.cloud._common import utils
-from tiledb.cloud.rest_api import models
+import tiledb_cloud
+from tiledb_cloud import client
+from tiledb_cloud import config
+from tiledb_cloud import rest_api
+from tiledb_cloud import tiledb_cloud_error
+from tiledb_cloud import udf
+from tiledb_cloud._common import testonly
+from tiledb_cloud._common import utils
+from tiledb_cloud.rest_api import models
 
 
 class GenericUDFTest(unittest.TestCase):
@@ -48,7 +48,7 @@ class GenericUDFTest(unittest.TestCase):
             task_name=task_name,
         )
         self.assertEqual(res, [1, [2, 2], {"test": 1}, [1, 2, 3]])
-        self.assertEqual(tiledb.cloud.last_udf_task().name, task_name)
+        self.assertEqual(tiledb_cloud.last_udf_task().name, task_name)
 
     def test_pass_by_name(self):
         def show(*args, **kwargs):

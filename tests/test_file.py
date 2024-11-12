@@ -9,19 +9,19 @@ from typing import List
 import pytest
 
 import tiledb
-import tiledb.cloud
-from tiledb.cloud import array
-from tiledb.cloud import client
-from tiledb.cloud import groups
-from tiledb.cloud._common import testonly
-from tiledb.cloud._common import utils
-from tiledb.cloud.array import delete_array
-from tiledb.cloud.array import info
-from tiledb.cloud.files import indexing as file_indexing
-from tiledb.cloud.files import ingestion as file_ingestion
-from tiledb.cloud.files import udfs as file_udfs
-from tiledb.cloud.files import utils as file_utils
-from tiledb.cloud.utilities import get_logger_wrapper
+import tiledb_cloud
+from tiledb_cloud import array
+from tiledb_cloud import client
+from tiledb_cloud import groups
+from tiledb_cloud._common import testonly
+from tiledb_cloud._common import utils
+from tiledb_cloud.array import delete_array
+from tiledb_cloud.array import info
+from tiledb_cloud.files import indexing as file_indexing
+from tiledb_cloud.files import ingestion as file_ingestion
+from tiledb_cloud.files import udfs as file_udfs
+from tiledb_cloud.files import utils as file_utils
+from tiledb_cloud.utilities import get_logger_wrapper
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 

@@ -1,6 +1,6 @@
 import unittest
 
-from tiledb.cloud.taskgraphs.delayed import _graph
+from tiledb_cloud.taskgraphs.delayed import _graph
 
 
 class DummyNode(_graph.Node):

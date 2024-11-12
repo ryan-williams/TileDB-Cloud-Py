@@ -5,15 +5,15 @@ from concurrent import futures
 
 import numpy as np
 
-import tiledb.cloud
-from tiledb.cloud._common import testonly
-from tiledb.cloud.compute import Delayed
-from tiledb.cloud.compute import DelayedArrayUDF
-from tiledb.cloud.compute import DelayedSQL
-from tiledb.cloud.compute import Status
-from tiledb.cloud.compute.delayed import DelayedMultiArrayUDF
-from tiledb.cloud.dag import Mode
-from tiledb.cloud.dag import dag
+import tiledb_cloud
+from tiledb_cloud._common import testonly
+from tiledb_cloud.compute import Delayed
+from tiledb_cloud.compute import DelayedArrayUDF
+from tiledb_cloud.compute import DelayedSQL
+from tiledb_cloud.compute import Status
+from tiledb_cloud.compute.delayed import DelayedMultiArrayUDF
+from tiledb_cloud.dag import Mode
+from tiledb_cloud.dag import dag
 
 
 class DelayedClassTest(unittest.TestCase):
@@ -257,7 +257,7 @@ class DelayedCancelTest(unittest.TestCase):
 class DelayedCloudApplyTest(unittest.TestCase):
     def test_array_apply(self):
         uri = "tiledb://TileDB-inc/quickstart_sparse"
-        with tiledb.open(uri, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri, ctx=tiledb_cloud.Ctx()) as A:
             orig = A[:]
 
         import numpy
@@ -274,16 +274,16 @@ class DelayedCloudApplyTest(unittest.TestCase):
 
     def test_multi_array_apply(self):
         uri_sparse = "tiledb://TileDB-inc/quickstart_sparse"
-        with tiledb.open(uri_sparse, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_sparse, ctx=tiledb_cloud.Ctx()) as A:
             orig_sparse = A[:]
 
         uri_dense = "tiledb://TileDB-inc/quickstart_dense"
-        with tiledb.open(uri_dense, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_dense, ctx=tiledb_cloud.Ctx()) as A:
             orig_dense = A[:]
 
         import numpy
 
-        array_list = tiledb.cloud.array.ArrayList()
+        array_list = tiledb_cloud.array.ArrayList()
         array_list.add(uri_sparse, [(1, 4), (1, 4)], ["a"])
         array_list.add(uri_dense, [(1, 4), (1, 4)], ["a"])
 
@@ -304,7 +304,7 @@ class DelayedCloudApplyTest(unittest.TestCase):
 
     def test_array_apply_by_name(self):
         uri = "tiledb://TileDB-inc/quickstart_sparse"
-        with tiledb.open(uri, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri, ctx=tiledb_cloud.Ctx()) as A:
             orig = A[:]
 
         def sum_a(x):
@@ -336,7 +336,7 @@ class DelayedCloudApplyTest(unittest.TestCase):
 
     def test_sql_exec(self):
         uri = "tiledb://TileDB-inc/quickstart_sparse"
-        with tiledb.open(uri, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri, ctx=tiledb_cloud.Ctx()) as A:
             orig = A[:]
 
         import numpy
@@ -352,10 +352,10 @@ class DelayedCloudApplyTest(unittest.TestCase):
     def test_apply_exec_multiple(self):
         uri_sparse = "tiledb://TileDB-inc/quickstart_sparse"
         uri_dense = "tiledb://TileDB-inc/quickstart_dense"
-        with tiledb.open(uri_sparse, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_sparse, ctx=tiledb_cloud.Ctx()) as A:
             orig = A[:]
 
-        with tiledb.open(uri_dense, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_dense, ctx=tiledb_cloud.Ctx()) as A:
             orig_dense = A[:]
 
         import numpy
@@ -396,10 +396,10 @@ class DelayedCloudApplyTest(unittest.TestCase):
     def test_apply_exec_multiple_2(self):
         uri_sparse = "tiledb://TileDB-inc/quickstart_sparse"
         uri_dense = "tiledb://TileDB-inc/quickstart_dense"
-        with tiledb.open(uri_sparse, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_sparse, ctx=tiledb_cloud.Ctx()) as A:
             orig = A[:]
 
-        with tiledb.open(uri_dense, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_dense, ctx=tiledb_cloud.Ctx()) as A:
             orig_dense = A[:]
 
         import numpy
@@ -450,10 +450,10 @@ class DelayedCloudApplyTest(unittest.TestCase):
     def test_name_to_task_name(self):
         uri_sparse = "tiledb://TileDB-inc/quickstart_sparse"
         uri_dense = "tiledb://TileDB-inc/quickstart_dense"
-        with tiledb.open(uri_sparse, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_sparse, ctx=tiledb_cloud.Ctx()) as A:
             orig = A[:]
 
-        with tiledb.open(uri_dense, ctx=tiledb.cloud.Ctx()) as A:
+        with tiledb.open(uri_dense, ctx=tiledb_cloud.Ctx()) as A:
             orig_dense = A[:]
 
         import numpy

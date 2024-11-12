@@ -1,4 +1,4 @@
-"""Tests of the tiledb.cloud.asset module."""
+"""Tests of the tiledb_cloud.asset module."""
 
 import time
 import unittest
@@ -6,21 +6,21 @@ from unittest import mock
 
 import pytest
 
-from tiledb.cloud import asset  # type: ignore
-from tiledb.cloud import client
-from tiledb.cloud import groups
-from tiledb.cloud import rest_api
-from tiledb.cloud._common import testonly
-from tiledb.cloud.rest_api.models import ArrayInfo  # type: ignore
-from tiledb.cloud.rest_api.models import ArraySharing  # type: ignore
-from tiledb.cloud.rest_api.models import GroupInfo  # type: ignore
-from tiledb.cloud.rest_api.models import GroupSharing  # type: ignore
+from tiledb_cloud import asset  # type: ignore
+from tiledb_cloud import client
+from tiledb_cloud import groups
+from tiledb_cloud import rest_api
+from tiledb_cloud._common import testonly
+from tiledb_cloud.rest_api.models import ArrayInfo  # type: ignore
+from tiledb_cloud.rest_api.models import ArraySharing  # type: ignore
+from tiledb_cloud.rest_api.models import GroupInfo  # type: ignore
+from tiledb_cloud.rest_api.models import GroupSharing  # type: ignore
 
 TRIES = 5
 
 
 @mock.patch("tiledb.object_type", return_value="array")
-@mock.patch("tiledb.cloud.array.delete_array")
+@mock.patch("tiledb_cloud.array.delete_array")
 def test_asset_delete_array_dispatch(delete_array, object_type):
     """Dispatch to array.array_delete when URI is an array."""
     asset.delete("a")
@@ -29,7 +29,7 @@ def test_asset_delete_array_dispatch(delete_array, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="group")
-@mock.patch("tiledb.cloud.groups.delete")
+@mock.patch("tiledb_cloud.groups.delete")
 def test_asset_delete_group_dispatch(delete_group, object_type):
     """Dispatch to groups.delete when URI is a group."""
     asset.delete("g")
@@ -37,7 +37,7 @@ def test_asset_delete_group_dispatch(delete_group, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="group")
-@mock.patch("tiledb.cloud.groups.delete")
+@mock.patch("tiledb_cloud.groups.delete")
 def test_asset_delete_group_recursive(delete_group, object_type):
     """Dispatch to groups.delete, recursively, when URI is a group."""
     asset.delete("g", recursive=True)
@@ -45,7 +45,7 @@ def test_asset_delete_group_recursive(delete_group, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="array")
-@mock.patch("tiledb.cloud.array.info", return_value=ArrayInfo(tiledb_uri="tiledb://a"))
+@mock.patch("tiledb_cloud.array.info", return_value=ArrayInfo(tiledb_uri="tiledb://a"))
 def test_asset_info_array_dispatch(array_info, object_type):
     """Dispatch to array.info when URI is an array."""
     info = asset.info("a")
@@ -54,7 +54,7 @@ def test_asset_info_array_dispatch(array_info, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="group")
-@mock.patch("tiledb.cloud.groups.info", return_value=GroupInfo(tiledb_uri="tiledb://g"))
+@mock.patch("tiledb_cloud.groups.info", return_value=GroupInfo(tiledb_uri="tiledb://g"))
 def test_asset_info_group_dispatch(group_info, object_type):
     """Dispatch to groups.info when URI is a group."""
     info = asset.info("g")
@@ -76,7 +76,7 @@ def test_public_group_asset_info():
 
 
 @mock.patch("tiledb.object_type", return_value="array")
-@mock.patch("tiledb.cloud.array.share_array")
+@mock.patch("tiledb_cloud.array.share_array")
 def test_asset_share_array_dispatch(share_array, object_type):
     """Dispatch to array.share_array when URI is an array."""
     asset.share("a", "public", "read")
@@ -84,7 +84,7 @@ def test_asset_share_array_dispatch(share_array, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="group")
-@mock.patch("tiledb.cloud.groups.share_group")
+@mock.patch("tiledb_cloud.groups.share_group")
 def test_asset_share_group_dispatch(share_group, object_type):
     """Dispatch to groups.share when URI is a group."""
     asset.share("g", "public", "read")
@@ -92,7 +92,7 @@ def test_asset_share_group_dispatch(share_group, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="group")
-@mock.patch("tiledb.cloud.groups.share_group")
+@mock.patch("tiledb_cloud.groups.share_group")
 def test_asset_unshare_group_dispatch(share_group, object_type):
     """Dispatch to groups.share when URI is a group."""
     asset.unshare("g", "public")
@@ -101,7 +101,7 @@ def test_asset_unshare_group_dispatch(share_group, object_type):
 
 @mock.patch("tiledb.object_type", return_value="array")
 @mock.patch(
-    "tiledb.cloud.array.list_shared_with", return_value=[ArraySharing(namespace="foo")]
+    "tiledb_cloud.array.list_shared_with", return_value=[ArraySharing(namespace="foo")]
 )
 def test_asset_list_shared_with_array_dispatch(array_sharing, object_type):
     """Dispatch to array.list_shared_with when URI is an array."""
@@ -112,7 +112,7 @@ def test_asset_list_shared_with_array_dispatch(array_sharing, object_type):
 
 @mock.patch("tiledb.object_type", return_value="group")
 @mock.patch(
-    "tiledb.cloud.groups.list_shared_with", return_value=[GroupSharing(namespace="bar")]
+    "tiledb_cloud.groups.list_shared_with", return_value=[GroupSharing(namespace="bar")]
 )
 def test_asset_list_shared_with_group_dispatch(group_sharing, object_type):
     """Dispatch to groups.info when URI is a group."""
@@ -141,7 +141,7 @@ def test_public_group_sharing():
 
 
 @mock.patch("tiledb.object_type", return_value="array")
-@mock.patch("tiledb.cloud.array.update_info")
+@mock.patch("tiledb_cloud.array.update_info")
 def test_asset_update_info_array_dispatch(update_array, object_type):
     """Dispatch to array.update_info when URI is an array."""
     asset.update_info("a", description="new description")
@@ -155,7 +155,7 @@ def test_asset_update_info_array_dispatch(update_array, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="group")
-@mock.patch("tiledb.cloud.groups.update_info")
+@mock.patch("tiledb_cloud.groups.update_info")
 def test_asset_update_info_group_dispatch(update_group, object_type):
     """Dispatch to groups.update_info when URI is a group."""
     asset.update_info("g", description="new description")
@@ -165,7 +165,7 @@ def test_asset_update_info_group_dispatch(update_group, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="array")
-@mock.patch("tiledb.cloud.array.register_array")
+@mock.patch("tiledb_cloud.array.register_array")
 def test_asset_register_array_dispatch(register_array, object_type):
     """Dispatch to array.register_array when URI is an array."""
     asset.register("a", "array", name="foo", credentials_name="bar")
@@ -179,7 +179,7 @@ def test_asset_register_array_dispatch(register_array, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="group")
-@mock.patch("tiledb.cloud.groups.register")
+@mock.patch("tiledb_cloud.groups.register")
 def test_asset_register_group_dispatch(register_group, object_type):
     """Dispatch to groups.register when URI is a group."""
     asset.register("a", "group", name="foo", credentials_name="bar")
@@ -194,7 +194,7 @@ def test_asset_register_group_dispatch(register_group, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="array")
-@mock.patch("tiledb.cloud.array.deregister_array")
+@mock.patch("tiledb_cloud.array.deregister_array")
 def test_asset_deregister_array_dispatch(deregister_array, object_type):
     """Dispatch to array.deregister_array when URI is an array."""
     asset.deregister("a")
@@ -202,7 +202,7 @@ def test_asset_deregister_array_dispatch(deregister_array, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="group")
-@mock.patch("tiledb.cloud.groups.deregister")
+@mock.patch("tiledb_cloud.groups.deregister")
 def test_asset_deregister_group_dispatch(deregister_group, object_type):
     """Dispatch to groups.deregister when URI is a group."""
     asset.deregister("g")
@@ -210,7 +210,7 @@ def test_asset_deregister_group_dispatch(deregister_group, object_type):
 
 
 @mock.patch("tiledb.object_type", return_value="group")
-@mock.patch("tiledb.cloud.groups.deregister")
+@mock.patch("tiledb_cloud.groups.deregister")
 def test_asset_deregister_group_recursive_dispatch(deregister_group, object_type):
     """Dispatch to groups.deregister when URI is a group."""
     asset.deregister("g", recursive=True)

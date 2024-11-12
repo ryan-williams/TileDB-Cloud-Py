@@ -12,7 +12,7 @@ import numpy as np
 import pytest
 
 import tiledb
-import tiledb.cloud.utilities as utils
+import tiledb_cloud.utilities as utils
 from tiledb.vfs import VFS
 
 RASTER_NAMES = [
@@ -32,7 +32,7 @@ GEOM_NAMES = ["test1.geojson", "test2.geojson", "test3.geojson"]
 
 @pytest.mark.geospatial
 def run_local(dataset_uri: str, *, dataset_type: Enum, batch_size: int, **kwargs):
-    import tiledb.cloud.geospatial as geo
+    import tiledb_cloud.geospatial as geo
 
     pixels_per_fragment = None
     nodata = None
@@ -183,7 +183,7 @@ class GeospatialTest(unittest.TestCase):
         self.out_path = "out"
 
     def test_raster_load_metadata(self):
-        import tiledb.cloud.geospatial as geo
+        import tiledb_cloud.geospatial as geo
 
         tile_size = 16
         tile_size**2
@@ -214,7 +214,7 @@ class GeospatialTest(unittest.TestCase):
                 geo.load_raster_metadata(ingest_uri_sample["test2"])
 
     def test_pointcloud_load_metadata(self):
-        import tiledb.cloud.geospatial as geo
+        import tiledb_cloud.geospatial as geo
 
         with mock.patch.object(VFS, "ls", return_value=PC_NAMES):
             meta_1 = geo.load_pointcloud_metadata(PC_NAMES)
@@ -225,7 +225,7 @@ class GeospatialTest(unittest.TestCase):
     def test_geometry_load_metadata(self):
         import fiona
 
-        import tiledb.cloud.geospatial as geo
+        import tiledb_cloud.geospatial as geo
 
         geom_names = [self.test_dir.joinpath(g) for g in GEOM_NAMES]
         with mock.patch.object(VFS, "ls", return_value=geom_names):
@@ -236,7 +236,7 @@ class GeospatialTest(unittest.TestCase):
     def test_raster_ingest(self):
         import rasterio
 
-        import tiledb.cloud.geospatial as geo
+        import tiledb_cloud.geospatial as geo
 
         tile_size = 16
         pixels_per_fragment = 16**2
@@ -299,7 +299,7 @@ class GeospatialTest(unittest.TestCase):
         """Real-world RGB raster is ingested correctly."""
         import rasterio
 
-        import tiledb.cloud.geospatial as geo
+        import tiledb_cloud.geospatial as geo
 
         tile_size = 256
         pixels_per_fragment = 256**2
@@ -345,7 +345,7 @@ class GeospatialTest(unittest.TestCase):
     def test_raster_fragments(self):
         import rasterio
 
-        import tiledb.cloud.geospatial as geo
+        import tiledb_cloud.geospatial as geo
 
         tile_size = 5
         # 25 pixels per tile, going to write at most 10 tiles per time
@@ -391,7 +391,7 @@ class GeospatialTest(unittest.TestCase):
             self.assertEqual(len(fragments_info), 8)
 
     def test_pointcloud_ingest(self):
-        import tiledb.cloud.geospatial as geo
+        import tiledb_cloud.geospatial as geo
 
         test_1 = [self.test_dir.joinpath(r) for r in PC_NAMES]
         with mock.patch.object(VFS, "ls", return_value=test_1):
@@ -415,7 +415,7 @@ class GeospatialTest(unittest.TestCase):
                 self.assertEqual(len(data["X"]), 1065)
 
     def test_geometry_ingest(self):
-        import tiledb.cloud.geospatial as geo
+        import tiledb_cloud.geospatial as geo
 
         test_1 = [self.test_dir.joinpath(g) for g in GEOM_NAMES]
         with mock.patch.object(VFS, "ls", return_value=test_1):

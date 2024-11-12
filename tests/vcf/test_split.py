@@ -1,13 +1,13 @@
-"""Unit tests for tiledb.cloud.vcf.split module."""
+"""Unit tests for tiledb_cloud.vcf.split module."""
 
 import os
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
-import tiledb.cloud
-from tiledb.cloud.vcf.split import ls_samples
-from tiledb.cloud.vcf.split import split_one_sample
-from tiledb.cloud.vcf.split import split_vcf
+import tiledb_cloud
+from tiledb_cloud.vcf.split import ls_samples
+from tiledb_cloud.vcf.split import split_one_sample
+from tiledb_cloud.vcf.split import split_vcf
 
 # test constants
 _vcf_uri = "source_vcf.vcf.gz"
@@ -17,7 +17,7 @@ _output_uri = "output"
 @patch("tiledb.VFS")
 @patch("gzip.GzipFile")
 def test_ls_samples(mocked_gz_file: MagicMock, mocked_vfs: MagicMock) -> None:
-    """Test tiledb.cloud.vcf.split.ls_samples"""
+    """Test tiledb_cloud.vcf.split.ls_samples"""
 
     expected = ["SampleA", "SampleB"]
     binary_exp = "\t".join(expected).encode()
@@ -31,9 +31,9 @@ def test_ls_samples(mocked_gz_file: MagicMock, mocked_vfs: MagicMock) -> None:
     assert observed == expected
 
 
-@patch("tiledb.cloud.vcf.split.process_stream")
+@patch("tiledb_cloud.vcf.split.process_stream")
 def test_split_one_sample(mock_process_stream: MagicMock) -> None:
-    """Test tiledb.cloud.vcf.split.split_one_sample"""
+    """Test tiledb_cloud.vcf.split.split_one_sample"""
 
     sample = "SampleA"
     mock_process_stream.return_value = (
@@ -51,9 +51,9 @@ def test_split_one_sample(mock_process_stream: MagicMock) -> None:
     assert observed == os.path.join(_output_uri, sample + ".vcf.gz")
 
 
-@patch.object(tiledb.cloud.vcf.split.DAG, "submit")
+@patch.object(tiledb_cloud.vcf.split.DAG, "submit")
 def test_split_vcf(mock_submit_1: MagicMock) -> None:
-    """Test tiledb.cloud.vcf.split.split_vcf
+    """Test tiledb_cloud.vcf.split.split_vcf
 
     Pretty basic function that just prepares the DAG.
     Need to confirm it adds nodes based on inputs.
@@ -68,7 +68,7 @@ def test_split_vcf(mock_submit_1: MagicMock) -> None:
         compute=False,
     )
 
-    assert isinstance(obs, tiledb.cloud.dag.DAG)
+    assert isinstance(obs, tiledb_cloud.dag.DAG)
 
     # should have submitted just one node, with just one sample passed
     mock_submit_1.assert_called_once()
@@ -77,8 +77,8 @@ def test_split_vcf(mock_submit_1: MagicMock) -> None:
 
     # call again with two samples
     # have to init a new mock
-    # with patch.object(tiledb.cloud.dag.DAG, "submit") as mock_submit_2:
-    with patch.object(tiledb.cloud.vcf.split.DAG, "submit") as mock_submit_2:
+    # with patch.object(tiledb_cloud.dag.DAG, "submit") as mock_submit_2:
+    with patch.object(tiledb_cloud.vcf.split.DAG, "submit") as mock_submit_2:
         obs = split_vcf(
             vcf_uri=_vcf_uri,
             output_uri=_output_uri,
@@ -92,11 +92,11 @@ def test_split_vcf(mock_submit_1: MagicMock) -> None:
 
     # test without any samples for dynamic sample discovery
     with (
-        patch.object(tiledb.cloud.vcf.split.DAG, "submit") as mock_submit_3,
+        patch.object(tiledb_cloud.vcf.split.DAG, "submit") as mock_submit_3,
         patch.object(
-            tiledb.cloud.vcf.split.DAG, "submit_udf_stage"
+            tiledb_cloud.vcf.split.DAG, "submit_udf_stage"
         ) as mock_submit_udf_stage,
-        patch("tiledb.cloud.vcf.split.run_dag") as mock_run_dag,
+        patch("tiledb_cloud.vcf.split.run_dag") as mock_run_dag,
     ):
         # also testing with compute == True
         obs = split_vcf(

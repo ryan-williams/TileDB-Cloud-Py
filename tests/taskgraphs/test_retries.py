@@ -2,10 +2,10 @@ import operator
 import unittest
 from concurrent import futures
 
-import tiledb.cloud.taskgraphs as tg
-from tiledb.cloud import client
-from tiledb.cloud._common import testonly
-from tiledb.cloud.taskgraphs import client_executor
+import tiledb_cloud.taskgraphs as tg
+from tiledb_cloud import client
+from tiledb_cloud._common import testonly
+from tiledb_cloud.taskgraphs import client_executor
 
 
 class RetryTest(unittest.TestCase):

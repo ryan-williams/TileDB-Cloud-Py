@@ -14,9 +14,9 @@ To login programmatically you will need either
 ## Username and Password method
 
 ```python
-import tiledb.cloud
+import tiledb_cloud
 
-tiledb.cloud.login(
+tiledb_cloud.login(
     host=<tiledb.host>,
     username=<username>,
     password=<password>
@@ -26,9 +26,9 @@ tiledb.cloud.login(
 ## Token method
 
 ```python
-import tiledb.cloud
+import tiledb_cloud
 
-tiledb.cloud.login(
+tiledb_cloud.login(
     host=<tiledb.host>,
     token=<token>
 )
